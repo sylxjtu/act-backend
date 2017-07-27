@@ -15,6 +15,6 @@ const settings = {
     origin: "http://localhost:8080",
     credentials: true
   },
-  salt: "sylxjtu"
+  storeConfig: {}
 };
 module.exports = settings;

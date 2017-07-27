@@ -1,5 +1,4 @@
 const express = require('express');
-const defines = require('../defines');
 const requireLogin = require('../middlewares/requireLogin');
 const sendData = require('../middlewares/sendData');
 const RoomModel = require('../models/room');
@@ -18,6 +17,6 @@ module.exports = function(context) {
   router.put('/', requireLogin, sendData(
     (req) => roomModel.createRoom(req.body.data)
   ));
-  
+
   return router;
 };

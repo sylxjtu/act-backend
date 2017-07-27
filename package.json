@@ -11,7 +11,9 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "ccap": "^0.6.10",
+    "cors": "^2.8.4",
     "express": "^4.15.3",
+    "express-mysql-session": "^1.2.1",
     "express-session": "^1.15.3",
     "mysql": "^2.13.0"
   }

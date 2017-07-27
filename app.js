@@ -3,6 +3,8 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cors = require('cors');
+const MySQLStore = require('express-mysql-session')(session);
+
 const settings = require('./settings');
 
 const ActivityRouter = require('./routers/activity');
@@ -16,12 +18,19 @@ const context = {};
 context.pool = mysql.createPool(settings.mysqlPool);
 
 const app = express();
+
 app.use(bodyParser.json());
-app.use(session(settings.session));
 app.use(cors(settings.cors));
+app.use(session(Object.assign(
+  {},
+  settings.session,
+  {store: new MySQLStore(settings.storeConfig, context.pool)}
+)));
+
 app.get('/', (req, res) => {
   res.send("Hello, world");
 });
+
 app.use('/activity', ActivityRouter(context));
 app.use('/login', LoginRouter(context));
 app.use('/logout', LogoutRouter(context));
