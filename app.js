@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const cors = require('cors');
 const settings = require('./settings');
 
 const ActivityRouter = require('./routers/activity');
@@ -17,6 +18,7 @@ context.pool = mysql.createPool(settings.mysqlPool);
 const app = express();
 app.use(bodyParser.json());
 app.use(session(settings.session));
+app.use(cors(settings.cors));
 app.get('/', (req, res) => {
   res.send("Hello, world");
 });

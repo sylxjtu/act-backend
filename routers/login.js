@@ -20,8 +20,7 @@ module.exports = function(context) {
 
   // View Login Status
   router.get('/', function(req, res) {
-    if(req.session.isLoggedIn === true) return res.json(defines.alreadyLoggedIn);
-    else return res.json(defines.notLoggedIn);
+    return res.json(Object.assign({}, defines.success, {data: {isLoggedIn: req.session.isLoggedIn === true}}));
   });
   return router;
 };

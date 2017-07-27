@@ -1,7 +1,7 @@
 const express = require('express');
-const defines = require('../defines');
 const requireLogin = require('../middlewares/requireLogin');
 const requireCaptcha = require('../middlewares/requireCaptcha');
+const sendData = require('../middlewares/sendData');
 const ActivityModel = require('../models/activity');
 
 module.exports = function(context) {
@@ -9,48 +9,31 @@ module.exports = function(context) {
   const activityModel = ActivityModel(context);
 
   // Get all activity
-  router.get('/', function(req, res) {
-    activityModel.getActivities().then((results) => {
-      res.json(Object.assign({}, defines.success, {data: results}));
-    }).catch((error) => {
-      res.json(error);
-    });
-  });
+  router.get('/', sendData(
+    (req) => activityModel.getActivities(req.query.showAllActivities),
+    (results) => ({data: results})
+  ));
 
   // Create an activity
-  router.put('/', requireCaptcha, function(req, res) {
-    activityModel.createActivity(req.body.data).then(() => {
-      res.json(defines.success);
-    }).catch((error) => {
-      res.json(error);
-    });
-  });
+  router.put('/', requireCaptcha, sendData(
+    (req) => activityModel.createActivity(req.body.data)
+  ));
 
   // View an activity
-  router.get('/:activityId', requireLogin, function(req, res) {
-    activityModel.getActivityInfo(req.params.activityId).then((results) => {
-      res.json(Object.assign({}, defines.success, {data: results}));
-    }).catch((error) => {
-      res.json(error);
-    });
-  });
+  router.get('/:activityId', requireLogin, sendData(
+    (req) => activityModel.getActivityInfo(req.params.activityId),
+    (results) => ({data: results})
+  ));
 
   // Accept an activity
-  router.post('/:activityId', requireLogin, function(req, res) {
-    activityModel.acceptActivity(req.params.activityId).then(() => {
-      res.json(defines.success);
-    }).catch((error) => {
-      res.json(error);
-    });
-  });
+  router.post('/:activityId', requireLogin, sendData(
+    (req) => activityModel.acceptActivity(req.params.activityId)
+  ));
 
   // Delete an activity
-  router.delete('/:activityId', requireLogin, function(req, res) {
-    activityModel.deleteActivity(req.params.activityId).then(() => {
-      res.json(defines.success);
-    }).catch((error) => {
-      res.json(error);
-    });
-  });
+  router.delete('/:activityId', requireLogin, sendData(
+    (req) => activityModel.deleteActivity(req.params.activityId)
+  ));
+
   return router;
 };

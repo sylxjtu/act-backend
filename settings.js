@@ -11,6 +11,10 @@ const settings = {
     resave: false,
     saveUninitialized: false,
   },
+  cors: {
+    origin: "http://localhost:8080",
+    credentials: true
+  },
   salt: "sylxjtu"
 };
 module.exports = settings;

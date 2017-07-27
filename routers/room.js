@@ -1,6 +1,7 @@
 const express = require('express');
 const defines = require('../defines');
 const requireLogin = require('../middlewares/requireLogin');
+const sendData = require('../middlewares/sendData');
 const RoomModel = require('../models/room');
 
 module.exports = function(context) {
@@ -8,21 +9,15 @@ module.exports = function(context) {
   const roomModel = RoomModel(context);
 
   // Get all room
-  router.get('/', function(req, res) {
-    roomModel.getRooms().then((results) => {
-      res.json(Object.assign({}, defines.success, {data: results}));
-    }).catch((error) => {
-      res.json(error);
-    });
-  });
+  router.get('/', sendData(
+    () => roomModel.getRooms(),
+    (results) => ({data: results})
+  ));
 
-  // Create an activity
-  router.put('/', requireLogin, function(req, res) {
-    roomModel.createRoom(req.body.data).then(() => {
-      res.json(defines.success);
-    }).catch((error) => {
-      res.json(error);
-    });
-  });
+  // Create a room
+  router.put('/', requireLogin, sendData(
+    (req) => roomModel.createRoom(req.body.data)
+  ));
+  
   return router;
 };

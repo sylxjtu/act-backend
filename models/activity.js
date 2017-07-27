@@ -2,10 +2,12 @@ const defines = require('../defines');
 
 module.exports = function(context) {
   return {
-    getActivities() {
+    getActivities(showAllActivities) {
       return new Promise((resolve, reject) => {
         context.pool.query(
-          'SELECT id, name, roomId, beginTime, endTime, isAccepted FROM activity',
+          `SELECT activity.id AS id, activity.name AS name, roomId, room.name AS roomName, beginTime, endTime, isAccepted FROM activity, room
+          WHERE (endTime > NOW() OR ?) AND roomId = room.id`,
+          [showAllActivities === 'true' ? 1 : 0],
           function(error, results, fields) {
             if(error) reject(defines.internalError(error.code));
             else resolve(results, fields);
@@ -28,7 +30,9 @@ module.exports = function(context) {
     getActivityInfo(activityId) {
       return new Promise((resolve, reject) => {
         context.pool.query(
-          'SELECT id, name, roomId, beginTime, endTime, isAccepted, studentId, studentName, studentPhone, createTime, email FROM activity WHERE id = ?',
+          `SELECT activity.id AS id, activity.name AS name, room.name AS roomName, beginTime, endTime, isAccepted, studentId, studentName, studentPhone, createTime, email
+          FROM activity, room
+          WHERE activity.id = ? AND room.id = roomId`,
           [activityId],
           function(error, results, fields) {
             if(error) reject(defines.internalError(error.code));
