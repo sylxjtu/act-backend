@@ -1,5 +1,5 @@
 module.exports = {
-  port: 3000,
+  port: 80,
   mysqlPool: {
     connectionLimit: 10,
     host: 'localhost',
