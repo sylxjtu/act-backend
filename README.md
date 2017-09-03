@@ -3,8 +3,9 @@
 ## Setup
 
 - Edit `productionSettings.js` or `devSettings.js`
-- Setup database (To be done)
+- Import `schema.sql` to database
 
 ## Start
 
 - Run `npm start` or `NODE_ENV=production npm start`
+- If it's the first time to run the program, password will be initialized according to the setting
