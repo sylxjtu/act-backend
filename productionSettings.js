@@ -4,7 +4,8 @@ module.exports = {
     connectionLimit: 10,
     host: 'MYSQLSERVER',
     user: 'MYSQLUSER',
-    database: 'MYSQLDATABASE'
+    database: 'MYSQLDATABASE',
+    password: 'MYSQLPASSWORD'
   },
   session: {
     secret: "SESSIONSECRET",

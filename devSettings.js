@@ -5,6 +5,7 @@ module.exports = {
     host: 'localhost',
     user: 'root',
     database: 'activity'
+    // no password
   },
   session: {
     secret: "sylxjtu",
