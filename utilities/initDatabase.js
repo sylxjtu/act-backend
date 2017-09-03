@@ -21,7 +21,7 @@ module.exports = function initDatabase (context) {
       'SELECT password FROM metadata',
       function(error, results) {
         if(error) reject(defines.internalError(error.code));
-        else if(results.length === 0) createUser().then(resolve());
+        else if(results.length === 0) createUser(context).then(resolve());
         else resolve();
       }
     );
