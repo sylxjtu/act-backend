@@ -7,6 +7,8 @@ const MySQLStore = require('express-mysql-session')(session);
 
 const settings = require('./settings');
 
+const initDatabase = require('./utilities/initDatabase');
+
 const ActivityRouter = require('./routers/activity');
 const LoginRouter = require('./routers/login');
 const LogoutRouter = require('./routers/logout');
@@ -27,16 +29,18 @@ app.use(session(Object.assign(
   {store: new MySQLStore(settings.storeConfig, context.pool)}
 )));
 
-app.get('/', (req, res) => {
-  res.send("Hello, world");
-});
-
 app.use('/activity', ActivityRouter(context));
 app.use('/login', LoginRouter(context));
 app.use('/logout', LogoutRouter(context));
 app.use('/metadata', MetadataRouter(context));
 app.use('/room', RoomRouter(context));
 app.use('/captcha', CaptchaRouter(context));
-app.listen(settings.port, () => {
-  console.log(`Listening at port ${settings.port}`);
+
+initDatabase(context).then(() => {
+  app.listen(settings.port, () => {
+    console.log(`Listening at port ${settings.port}`);
+  });
+}).catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

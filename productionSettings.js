@@ -15,5 +15,7 @@ module.exports = {
     origin: "WEBSERVERORIGIN",
     credentials: true
   },
+  initialPassword: 'INITIALPASSWORD',
+  salt: 'PASSWORDSALT', // Make sure the same as frontend
   storeConfig: {}
 };

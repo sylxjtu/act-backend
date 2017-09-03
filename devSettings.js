@@ -15,5 +15,7 @@ module.exports = {
     origin: "http://localhost:8080",
     credentials: true
   },
+  initialPassword: '1234',
+  salt: 'sylxjtu', // Make sure the same as frontend
   storeConfig: {}
 };
