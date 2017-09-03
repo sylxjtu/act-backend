@@ -38,7 +38,7 @@ CREATE TABLE `activity` (
   `studentId` varchar(100) NOT NULL,
   `studentName` varchar(100) NOT NULL,
   `studentPhone` varchar(100) NOT NULL,
-  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `createTime` datetime NOT NULL,
   `email` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

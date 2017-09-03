@@ -18,7 +18,7 @@ module.exports = function(context) {
       return new Promise((resolve, reject) => {
         // TODO: Add schema validation
         context.pool.query(
-          'INSERT INTO activity (name, roomId, beginTime, endTime, studentId, studentName, studentPhone, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+          'INSERT INTO activity (name, roomId, beginTime, endTime, studentId, studentName, studentPhone, email, createTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())',
           [newActivity.name, newActivity.roomId, newActivity.beginTime, newActivity.endTime, newActivity.studentId, newActivity.studentName, newActivity.studentPhone, newActivity.email],
           function(error, results, fields) {
             if(error) reject(defines.internalError(error.code));
