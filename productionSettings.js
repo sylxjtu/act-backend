@@ -2,17 +2,17 @@ module.exports = {
   port: 80,
   mysqlPool: {
     connectionLimit: 10,
-    host: 'localhost',
-    user: 'root',
-    database: 'activity'
+    host: 'MYSQLSERVER',
+    user: 'MYSQLUSER',
+    database: 'MYSQLDATABASE'
   },
   session: {
-    secret: "sylxjtu",
+    secret: "SESSIONSECRET",
     resave: false,
     saveUninitialized: false,
   },
   cors: {
-    origin: "http://localhost:8080",
+    origin: "WEBSERVERORIGIN",
     credentials: true
   },
   storeConfig: {}
