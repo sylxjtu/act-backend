@@ -18,5 +18,10 @@ module.exports = function(context) {
     (req) => roomModel.createRoom(req.body.data)
   ));
 
+  // Delete a room
+  router.delete('/:roomId', requireLogin, sendData(
+    (req) => roomModel.deleteRoom(req.params.roomId)
+  ));
+
   return router;
 };

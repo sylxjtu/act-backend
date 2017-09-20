@@ -5,12 +5,18 @@ module.exports = function(context) {
     getActivities(showAllActivities) {
       return new Promise((resolve, reject) => {
         context.pool.query(
-          `SELECT activity.id AS id, activity.name AS name, roomId, room.name AS roomName, beginTime, endTime, isAccepted FROM activity, room
-          WHERE (endTime > NOW() OR ?) AND roomId = room.id ORDER BY beginTime DESC`,
+          `SELECT activity.id AS id, activity.name AS name, roomId, room.name AS roomName, beginTime, endTime, isAccepted
+          FROM activity LEFT JOIN room ON roomId = room.id
+          WHERE (endTime > NOW() OR ?) ORDER BY beginTime DESC`,
           [showAllActivities === 'true' ? 1 : 0],
           function(error, results, fields) {
             if(error) reject(defines.internalError(error.code));
-            else resolve(results, fields);
+            else {
+              results.forEach((x) => {
+                x.roomName = x.roomName || '房间已被删除';
+              });
+              resolve(results, fields);
+            }
           });
       });
     },

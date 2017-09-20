@@ -24,6 +24,18 @@ module.exports = function(context) {
           }
         );
       });
+    },
+    deleteRoom(roomId) {
+      return new Promise((resolve, reject) => {
+        context.pool.query(
+          'DELETE FROM room WHERE id = ?',
+          [roomId],
+          function(error, results, fields) {
+            if(error) reject(defines.internalError(error.code));
+            else resolve(results, fields);
+          }
+        );
+      });
     }
   };
 };
