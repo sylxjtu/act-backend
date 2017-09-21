@@ -37,13 +37,16 @@ module.exports = function(context) {
       return new Promise((resolve, reject) => {
         context.pool.query(
           `SELECT activity.id AS id, activity.name AS name, room.name AS roomName, beginTime, endTime, isAccepted, studentId, studentName, studentPhone, createTime, email
-          FROM activity, room
-          WHERE activity.id = ? AND room.id = roomId`,
+          FROM activity LEFT JOIN room ON room.id = roomId
+          WHERE activity.id = ?`,
           [activityId],
           function(error, results, fields) {
             if(error) reject(defines.internalError(error.code));
             else if(!results[0]) reject(defines.resourceNotFound);
-            else resolve(results[0], fields);
+            else {
+              results[0].roomName = results[0].roomName || '房间已被删除';
+              resolve(results[0], fields);
+            }
           }
         );
       });
@@ -56,11 +59,17 @@ module.exports = function(context) {
           function(error, results) {
             if(error) reject(defines.internalError(error.code));
             else if(!results[0]) reject(defines.resourceNotFound);
+            else if(results[0].roomId === null) reject(defines.roomDeleted);
             else if(results[0].isAccepted !== 0) reject(defines.alreadyAccepted);
             else context.pool.query(
               `SELECT conflict.id FROM activity AS origin, activity AS conflict
-              WHERE origin.id = ? AND conflict.id <> origin.id AND conflict.roomId = origin.roomId AND conflict.isAccepted = 1
-              AND conflict.beginTime < origin.endTime AND conflict.endTime > origin.beginTime`,
+              WHERE
+                origin.id = ? AND
+                conflict.id <> origin.id AND
+                conflict.roomId = origin.roomId AND
+                conflict.isAccepted = 1 AND
+                conflict.beginTime < origin.endTime AND
+                conflict.endTime > origin.beginTime`,
               [activityId],
               function(error, results) {
                 if(error) reject(defines.internalError(error.code));

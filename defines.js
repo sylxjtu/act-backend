@@ -7,6 +7,7 @@ const defines = {
   resourceNotFound: {code: 4, msg: 'Resource Not Found'},
   alreadyAccepted: {code: 5, msg: 'Already Accepted'},
   conflictingActivity: (meta) => ({code: 6, msg: 'Conflicting Activity', meta}),
-  captchaIncorrect: {code: 7, msg: 'Captcha Incorrect'}
+  captchaIncorrect: {code: 7, msg: 'Captcha Incorrect'},
+  roomDeleted: {code: 8, msg: 'Room Deleted'}
 };
 module.exports = defines;
