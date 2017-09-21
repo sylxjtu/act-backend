@@ -54,7 +54,7 @@ module.exports = function(context) {
     acceptActivity(activityId) {
       return new Promise((resolve, reject) => {
         context.pool.query(
-          'SELECT isAccepted FROM activity WHERE id = ?',
+          'SELECT isAccepted, roomId FROM activity WHERE id = ?',
           [activityId],
           function(error, results) {
             if(error) reject(defines.internalError(error.code));
