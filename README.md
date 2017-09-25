@@ -3,7 +3,11 @@
 ## Setup
 
 - Edit `productionSettings.js` or `devSettings.js`
-- Import `schema.sql` to database
+- Import `sql/schema.sql` to database
+- Import all migration SQL files(`sql/migration*.sql`) to database in order
+
+## Update
+- Import migration SQL files(`sql/migration-<version>.sql`) to database
 
 ## Start
 
