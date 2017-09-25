@@ -4,7 +4,8 @@ module.exports = {
     connectionLimit: 10,
     host: 'localhost',
     user: 'root',
-    database: 'activity'
+    database: 'activity',
+    timezone: 'utc',
     // no password
   },
   session: {

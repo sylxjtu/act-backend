@@ -1,6 +1,7 @@
 const defines = require('../defines');
 
 module.exports = function(context) {
+  // ALL DATE STORED IN DATABASE IS IN UTC!
   return {
     getActivities(showAllActivities) {
       return new Promise((resolve, reject) => {
@@ -24,8 +25,8 @@ module.exports = function(context) {
       return new Promise((resolve, reject) => {
         // TODO: Add schema validation
         context.pool.query(
-          'INSERT INTO activity (name, roomId, beginTime, endTime, studentId, studentName, studentPhone, email, createTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())',
-          [newActivity.name, newActivity.roomId, newActivity.beginTime, newActivity.endTime, newActivity.studentId, newActivity.studentName, newActivity.studentPhone, newActivity.email],
+          'INSERT INTO activity (name, roomId, beginTime, endTime, studentId, studentName, studentPhone, email, createTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+          [newActivity.name, newActivity.roomId, newActivity.beginTime, newActivity.endTime, newActivity.studentId, newActivity.studentName, newActivity.studentPhone, newActivity.email, (new Date())],
           function(error, results, fields) {
             if(error) reject(defines.internalError(error.code));
             else resolve(results, fields);

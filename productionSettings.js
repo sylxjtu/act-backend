@@ -5,7 +5,8 @@ module.exports = {
     host: 'MYSQLSERVER',
     user: 'MYSQLUSER',
     database: 'MYSQLDATABASE',
-    password: 'MYSQLPASSWORD'
+    password: 'MYSQLPASSWORD',
+    timezone: 'utc'
   },
   session: {
     secret: "SESSIONSECRET",
